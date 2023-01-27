@@ -1,0 +1,27 @@
+{
+  "name": "remotion-app",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.ts",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "deploy-fn": "ts-node src/deploy-lambda-fn.ts",
+    "delete-fn": "ts-node src/delete-lambda-fn.ts",
+    "render-fn": "ts-node src/local-render.ts"
+  },
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "@types/node": "^18.11.18",
+    "@types/react": "^18.0.27",
+    "nodemon": "^2.0.20",
+    "ts-node": "^10.9.1",
+    "typescript": "^4.9.4"
+  },
+  "dependencies": {
+    "@remotion/lambda": "^3.3.37",
+    "dotenv": "^16.0.3",
+    "react": "^18.2.0",
+    "remotion": "^3.3.37"
+  }
+}
