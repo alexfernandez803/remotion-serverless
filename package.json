@@ -1,0 +1,12 @@
+{
+  "name": "aws-remotion-serverless",
+  "description": "",
+  "version": "0.0.1",
+  "devDependencies": {
+    "@types/aws-lambda": "8.10.61",
+    "serverless": "3.27.0",
+    "serverless-offline": "12.0.4",
+    "serverless-plugin-typescript": "2.1.4",
+    "typescript": "3.9.7"
+  }
+}

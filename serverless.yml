@@ -1,0 +1,18 @@
+org: remotiondev
+app: remotion-serverless
+service: remotion-serverless
+
+provider:
+  name: aws
+  runtime: nodejs14.x
+
+functions:
+  hello:
+    handler: handler.hello
+    events:
+      - http:
+          path: /
+          method: post
+
+plugins:
+  - serverless-plugin-typescript
