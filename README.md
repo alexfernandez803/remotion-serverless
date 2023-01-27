@@ -19,9 +19,9 @@ This template does not include any kind of persistence (database). For a more ad
 
 ## Setup
 
-Run this command to initialize a new project in a new working directory.
+Run this command to initialize ths project
 
-`sls init aws-node-rest-api-typescript`
+`serverless`
 
 ## Usage
 
@@ -39,11 +39,11 @@ To deploy without the dashboard you will need to remove `org` and `app` fields f
 **Invoke the function locally.**
 
 ```
-serverless invoke local --function hello
+serverless invoke local --function render
 ```
 
 **Invoke the function**
 
 ```
-curl https://xxxxxxxxx.execute-api.us-east-1.amazonaws.com/dev/
+curl https://xxxxxxxxx.execute-api.us-east-1.amazonaws.com/beta/render
 ```

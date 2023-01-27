@@ -1,17 +1,21 @@
 org: remotiondev
-app: remotion-serverless
-service: remotion-serverless
+app: aws-remotion-serverless
+service: api-render-video
 
 provider:
   name: aws
   runtime: nodejs14.x
+  stage: beta
+  region: ap-southeast-2
+  iam:
+    role: !Sub arn:aws:iam::${AWS::AccountId}:role/remotionLambdaServerlessRole
 
 functions:
-  hello:
-    handler: handler.hello
+  render:
+    handler: handler.render
     events:
       - http:
-          path: /
+          path: /render
           method: post
 
 plugins:
