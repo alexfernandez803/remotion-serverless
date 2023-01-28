@@ -1,21 +1,5 @@
-<!--
-title: 'AWS Simple HTTP Endpoint example in NodeJS with Typescript'
-description: 'This template demonstrates how to make a simple REST API with Node.js and Typescript running on AWS Lambda and API Gateway using the Serverless Framework v1.'
-layout: Doc
-framework: v1
-platform: AWS
-language: nodeJS
-priority: 10
-authorLink: 'https://github.com/serverless'
-authorName: 'Serverless, inc.'
-authorAvatar: 'https://avatars1.githubusercontent.com/u/13742415?s=200&v=4'
--->
+# Serverless Framework Node using Remotion in AWS
 
-# Serverless Framework Node with Typescript REST API on AWS
-
-This template demonstrates how to make a simple REST API with Node.js and Typescript running on AWS Lambda and API Gateway using the Serverless Framework v1.
-
-This template does not include any kind of persistence (database). For a more advanced example check out the [aws-node-rest-api-typescript example](https://github.com/serverless/examples/tree/master/aws-node-rest-api-typescript) which has must RESTful resources and persistence using MongoDB.
 
 ## Setup
 
@@ -127,3 +111,6 @@ curl --location --request GET 'https://xxxxxxx.execute-api.ap-southeast-2.amazon
     "mediaUrl": "https://s3.ap-southeast-2.amazonaws.com/**********/renders/XXXXXXX/out.mp4?X-Amz-Algorithm=AWS4-HMAC-XXXX&X-Amz-Content-Sha256=UNSIGNED-PAYLOAD&X-Amz-Credential=XXXXXXXXXX%2F20230128%2Fap-southeast-2%2Fs3%2Faws4_request&X-Amz-Date=20230128T073123Z&X-Amz-Expires=900&X-Amz-Security-Token=IQoJb3JpZ2luX2VjEOD%2F%2F%2F%2F%2F%2F%2F%2F%2F%2FwEaDmFwLXNvdXRoZWFzdC0yIkcwRQIgePGKy%2Fwz7at897vdWldlRQvg%2FbtOOvr8GRR%2FEqgFtQXXXj&X-Amz-Signature=0881241614cd6c778b149b2076b337c7XXXXX&X-Amz-SignedHeaders=host&x-id=GetObject"
 }
 ```
+
+## License
+This package and its source code is available under the MIT license. [Read the full license terms here.](https://github.com/alexfernandez803/remotion-serverless/blob/main/LICENSE.md). Notice that [Remotion](https://remotion.dev) requires a licence for some use cases, read the [terms here](https://github.com/remotion-dev/remotion/blob/main/LICENSE.md)
