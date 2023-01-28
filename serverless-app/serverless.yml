@@ -1,22 +1,95 @@
-org: remotiondev
+org: changeme
 app: aws-remotion-serverless
 service: api-render-video
+
+custom:
+  defaultStage: dev
+  currentStage: ${opt:stage, self:custom.defaultStage}
+  userPoolName: remotion-app-pool-${self:custom.currentStage}
+  userPoolClientName: remotion-app-pool-client-${self:custom.currentStage}
+outputs:
+  UserPoolRegion: ${opt:region, self:provider.region}
+  UserPoolId: !Ref CognitoUserPool
+  UserpoolClientId: !Ref CognitoUserPoolClient
+  APIGatewayUrl:
+    {
+      "Fn::Join":
+        [
+          "",
+          [
+            " https://",
+            { "Ref": "ApiGatewayRestApi" },
+            ".execute-api.${opt:region, self:provider.region}.amazonaws.com/${self:custom.defaultStage}/render",
+          ],
+        ],
+    }
+
+resources:
+  Resources:
+    CognitoUserPool:
+      Type: "AWS::Cognito::UserPool"
+      Properties:
+        MfaConfiguration: OFF
+        UserPoolName: ${self:custom.userPoolName}
+        UsernameAttributes:
+          - email
+        Policies:
+          PasswordPolicy:
+            MinimumLength: 6
+            RequireLowercase: False
+            RequireNumbers: True
+            RequireSymbols: False
+            RequireUppercase: True
+    CognitoUserPoolClient:
+      Type: "AWS::Cognito::UserPoolClient"
+      Properties:
+        ClientName: ${self:custom.userPoolClientName}
+        GenerateSecret: False
+        UserPoolId:
+          Ref: CognitoUserPool
+    ApiGatewayAuthorizer:
+      DependsOn:
+        - ApiGatewayRestApi
+      Type: AWS::ApiGateway::Authorizer
+      Properties:
+        Name: cognito-authorizer
+        IdentitySource: method.request.header.Authorization
+        RestApiId:
+          Ref: ApiGatewayRestApi
+        Type: COGNITO_USER_POOLS
+        ProviderARNs:
+          - Fn::GetAtt: [CognitoUserPool, Arn]
 
 provider:
   name: aws
   runtime: nodejs14.x
-  stage: beta
   region: ap-southeast-2
-  iam:
-    role: !Sub arn:aws:iam::${AWS::AccountId}:role/remotionLambdaServerlessRole
+  stage: ${self:custom.currentStage}
 
 functions:
   render:
     handler: handler.render
+    role: !Sub arn:aws:iam::${AWS::AccountId}:role/remotionLambdaServerlessRole
     events:
       - http:
           path: /render
           method: post
+          authorizer:
+            type: COGNITO_USER_POOLS
+            authorizerId:
+              Ref: ApiGatewayAuthorizer
+          cors:
+            origins:
+              - "http://localhost:3000"
+            headers:
+              - Content-Type
+              - X-Amz-Date
+              - Authorization
+              - X-Api-Key
+              - X-Amz-Security-Token
+              - X-Amz-User-Agent
+            allowCredentials: true
 
 plugins:
   - serverless-plugin-typescript
+  - serverless-iam-roles-per-function
