@@ -113,4 +113,4 @@ curl --location --request GET 'https://xxxxxxx.execute-api.ap-southeast-2.amazon
 ```
 
 ## License
-This package and its source code is available under the MIT license. [Read the full license terms here.](https://github.com/alexfernandez803/remotion-serverless/blob/main/LICENSE.md). Notice that [Remotion](https://remotion.dev) requires a licence for some use cases, read the [terms here](https://github.com/remotion-dev/remotion/blob/main/LICENSE.md)
+This package and its source code is available under the MIT license. [Read the full license terms here.](https://github.com/alexfernandez803/remotion-serverless/blob/main/LICENSE.md). Notice that [Remotion](https://remotion.dev) requires a licence for most use cases, read the [terms here](https://github.com/remotion-dev/remotion/blob/main/LICENSE.md)
