@@ -7,6 +7,7 @@ custom:
   currentStage: ${opt:stage, self:custom.defaultStage}
   userPoolName: remotion-app-pool-${self:custom.currentStage}
   userPoolClientName: remotion-app-pool-client-${self:custom.currentStage}
+
 outputs:
   UserPoolRegion: ${opt:region, self:provider.region}
   UserPoolId: !Ref CognitoUserPool
@@ -47,6 +48,11 @@ resources:
         GenerateSecret: False
         UserPoolId:
           Ref: CognitoUserPool
+        ExplicitAuthFlows:
+          - ALLOW_ADMIN_USER_PASSWORD_AUTH
+          - ALLOW_CUSTOM_AUTH
+          - ALLOW_USER_PASSWORD_AUTH
+          - ALLOW_REFRESH_TOKEN_AUTH
     ApiGatewayAuthorizer:
       DependsOn:
         - ApiGatewayRestApi
@@ -68,12 +74,41 @@ provider:
 
 functions:
   render:
-    handler: handler.render
+    handler: render_handler.render
     role: !Sub arn:aws:iam::${AWS::AccountId}:role/remotionLambdaServerlessRole
     events:
       - http:
           path: /render
           method: post
+          authorizer:
+            type: COGNITO_USER_POOLS
+            authorizerId:
+              Ref: ApiGatewayAuthorizer
+          cors:
+            origins:
+              - "http://localhost:3000"
+            headers:
+              - Content-Type
+              - X-Amz-Date
+              - Authorization
+              - X-Api-Key
+              - X-Amz-Security-Token
+              - X-Amz-User-Agent
+            allowCredentials: true
+
+  render_progress:
+    handler: progress_handler.progress
+    role: !Sub arn:aws:iam::${AWS::AccountId}:role/remotionLambdaServerlessRole
+    events:
+      - http:
+          path: /render/{renderId}
+          method: get
+          request:
+            parameters:
+              paths:
+                renderId: true
+              querystrings:
+                bucketName: true
           authorizer:
             type: COGNITO_USER_POOLS
             authorizerId:

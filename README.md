@@ -23,6 +23,8 @@ Run this command to initialize ths project
 
 `serverless`
 
+This will associate your project to the serverless dashboard.
+
 ## Usage
 
 **Deploy**
@@ -42,8 +44,70 @@ To deploy without the dashboard you will need to remove `org` and `app` fields f
 serverless invoke local --function render
 ```
 
+*** Setup your user as the application requires authentication and authorization.
+
+1. Create a user 
+
+```bash
+
+aws cognito-idp sign-up \
+  --client-id YOUR_USER_POOL_CLIENT_ID \
+  --username "sample@test.com" \
+  --password "compLicat3d123"
+
+```
+
+2. Confirm the user so they can sign in
+
+```bash
+    aws cognito-idp admin-confirm-sign-up \
+  --user-pool-id YOUR_USER_POOL_ID \
+  --username "sample@test.com"
+```
+
+3. Log the user to retrieve an identity JWT token
+
+```bash
+
+aws cognito-idp initiate-auth \
+  --auth-flow USER_PASSWORD_AUTH \
+  --auth-parameters \
+  USERNAME="sample@test.com",PASSWORD="compLicat3d123" \
+  --client-id YOUR_USER_POOL_CLIENT_ID
+
+```
+
 **Invoke the function**
 
 ```
-curl https://xxxxxxxxx.execute-api.us-east-1.amazonaws.com/beta/render
+curl --location --request POST 'https://xxxxxxx.execute-api.ap-southeast-2.amazonaws.com/dev/render' \
+--header 'Authorization: Bearer eyJraWQiOiJMVVVVZGtIQ1JX***********************R1t5S-oA'
+```
+
+*** Response ***
+```bash
+{
+    "message": "Video sent for rendering.",
+    "renderId": "q4hawg1c6u",
+    "bucketName": "remotionlambda-apsoutheast2-5essis84y1"
+}
+```
+
+
+*** Get Progress ***
+
+
+```bash
+curl --location --request GET 'https://xxxxxxx.execute-api.ap-southeast-2.amazonaws.com/dev/render/q4hawg1c6u?bucketName=remotionlambda-apsoutheast2-5essis84y1' \
+--header 'Authorization: Bearer eyJraWQiOiJMVVVVZGtIQ1JXWEEyWEE***********FRjTjMKR1t5S-oA'
+
+```
+
+*** Response ***
+```bash
+{
+    "message": "Video sent for rendering.",
+    "renderId": "q4hawg1c6u",
+    "bucketName": "remotionlambda-apsoutheast2-5essis84y1"
+}
 ```
