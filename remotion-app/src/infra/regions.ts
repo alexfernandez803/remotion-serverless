@@ -1,9 +1,11 @@
-import { AwsRegion, getRegions } from '@remotion/lambda'
+import { AwsRegion, getRegions } from "@remotion/lambda";
 
-// Two regions were reserved to save the concurrency for other projects.
+//set to ap-southeast-2
 // Adjust to you own use.
-export const usedRegions: AwsRegion[] = getRegions().filter((r) => r === 'ap-southeast-2')
+export const usedRegions: AwsRegion[] = getRegions().filter(
+  (r) => r === "ap-southeast-2"
+);
 
 export const getRandomRegion = (): AwsRegion => {
-    return usedRegions[Math.floor(Math.random() * usedRegions.length)]
-}
+  return usedRegions[Math.floor(Math.random() * usedRegions.length)];
+};
