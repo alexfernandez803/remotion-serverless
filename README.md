@@ -111,3 +111,19 @@ curl --location --request GET 'https://xxxxxxx.execute-api.ap-southeast-2.amazon
     "bucketName": "remotionlambda-apsoutheast2-5essis84y1"
 }
 ```
+
+
+*** Response ***
+
+```
+    {
+    "message": "Render found.",
+    "renderId": "i9xnfrg8bk",
+    "bucketName": "********-apsoutheast2-5essis84y1",
+    "finality": {
+        "type": "success",
+        "url": "https://s3.ap-southeast-2.amazonaws.com/**********/renders/XXXXXXX/out.mp4"
+    },
+    "mediaUrl": "https://s3.ap-southeast-2.amazonaws.com/**********/renders/XXXXXXX/out.mp4?X-Amz-Algorithm=AWS4-HMAC-XXXX&X-Amz-Content-Sha256=UNSIGNED-PAYLOAD&X-Amz-Credential=XXXXXXXXXX%2F20230128%2Fap-southeast-2%2Fs3%2Faws4_request&X-Amz-Date=20230128T073123Z&X-Amz-Expires=900&X-Amz-Security-Token=IQoJb3JpZ2luX2VjEOD%2F%2F%2F%2F%2F%2F%2F%2F%2F%2FwEaDmFwLXNvdXRoZWFzdC0yIkcwRQIgePGKy%2Fwz7at897vdWldlRQvg%2FbtOOvr8GRR%2FEqgFtQXXXj&X-Amz-Signature=0881241614cd6c778b149b2076b337c7XXXXX&X-Amz-SignedHeaders=host&x-id=GetObject"
+}
+```
