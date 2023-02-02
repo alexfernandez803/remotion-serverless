@@ -51,19 +51,15 @@ export class RemotionLambdaStarterStack extends cdk.Stack {
     );
 
     // 👇 create a role with custom name
-    const remotionLambdaServerlessRole = new Role(
-      this,
-      "remotionLambdaServerlessRole",
-      {
-        roleName: "remotionLambdaServerlessRole",
-        assumedBy: new ServicePrincipal("lambda.amazonaws.com"),
-        managedPolicies: [
-          ManagedPolicy.fromAwsManagedPolicyName(
-            "service-role/AWSLambdaBasicExecutionRole"
-          ),
-        ],
-      }
-    );
+    const remotionSQSLambdaRole = new Role(this, "remotionSQSLambdaRole", {
+      roleName: "remotionSQSLambdaRole",
+      assumedBy: new ServicePrincipal("lambda.amazonaws.com"),
+      managedPolicies: [
+        ManagedPolicy.fromAwsManagedPolicyName(
+          "service-role/AWSLambdaBasicExecutionRole"
+        ),
+      ],
+    });
 
     // 👇 create the apiIntegrationRole role
     const apiIntegrationRole = new IAM.Role(this, "api-integration-role", {
@@ -89,7 +85,6 @@ export class RemotionLambdaStarterStack extends cdk.Stack {
       runtime: lambda.Runtime.NODEJS_16_X,
       handler: "main",
       entry: path.join(__dirname, `/../src/render-function/index.ts`),
-      role: remotionLambdaServerlessRole,
       environment: {
         REMOTION_QUEUE_URL: remotionQueue.queueUrl,
       },
