@@ -3,11 +3,17 @@ import type {
   APIGatewayProxyEventV2,
   APIGatewayProxyResultV2,
 } from "aws-lambda";
-import { renderMediaOnLambda } from "@remotion/lambda/client";
 
 export async function main(
   event: APIGatewayProxyEventV2
 ): Promise<APIGatewayProxyResultV2> {
+  console.log("Inside Render woop woop");
+  return {
+    body: JSON.stringify({ isSuccess: true }),
+    statusCode: 200,
+  };
+
+  /**
   try {
     const { bucketName, renderId } = await renderMediaOnLambda({
       region: "us-east-1",
@@ -28,4 +34,5 @@ export async function main(
       statusCode: 400,
     };
   }
+   */
 }

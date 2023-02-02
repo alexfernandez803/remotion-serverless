@@ -91,7 +91,7 @@ export class RemotionLambdaStarterStack extends cdk.Stack {
       entry: path.join(__dirname, `/../src/render-function/index.ts`),
       role: remotionLambdaServerlessRole,
       environment: {
-        REMOTION_QUEUE_NAME: remotionQueue.queueName,
+        REMOTION_QUEUE_URL: remotionQueue.queueUrl,
       },
     });
 
