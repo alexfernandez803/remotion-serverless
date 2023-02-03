@@ -97,7 +97,7 @@ export class RemotionLambdaStarterStack extends cdk.Stack {
     const remotionRenderFunction = new NodejsFunction(this, "render-function", {
       runtime: lambda.Runtime.NODEJS_16_X,
       handler: "main",
-      entry: path.join(__dirname, `/../src/render-function/index.ts`),
+      entry: path.join(__dirname, `/../src/render-lambda-function/index.ts`),
       role: renderFunctionLambdaRole,
       bundling: {
         nodeModules: ["remotion", "@remotion/lambda"],
