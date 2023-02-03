@@ -12,8 +12,6 @@ const REMOTION_QUEUE_URL = process.env.REMOTION_QUEUE_URL;
 export async function main(
   event: APIGatewayProxyEventV2
 ): Promise<APIGatewayProxyResultV2> {
-  console.log("Enqueue function..");
-
   if (event.body) {
     const params = {
       DelaySeconds: 10,
