@@ -10,6 +10,7 @@ import * as IAM from "aws-cdk-lib/aws-iam";
 import { SqsEventSource } from "aws-cdk-lib/aws-lambda-event-sources";
 import { NodejsFunction } from "aws-cdk-lib/aws-lambda-nodejs";
 import { ManagedPolicy, Role, ServicePrincipal } from "aws-cdk-lib/aws-iam";
+import { Duration } from "aws-cdk-lib";
 
 export class RemotionLambdaStarterStack extends cdk.Stack {
   constructor(scope: cdk.App, id: string, props?: cdk.StackProps) {
@@ -51,9 +52,24 @@ export class RemotionLambdaStarterStack extends cdk.Stack {
     );
 
     // 👇 create a role with custom name
-    const remotionSQSLambdaRole = new Role(this, "remotionSQSLambdaRole", {
+    const renderFunctionLambdaRole = new Role(this, "remotionSQSLambdaRole", {
       roleName: "remotionSQSLambdaRole",
       assumedBy: new ServicePrincipal("lambda.amazonaws.com"),
+      managedPolicies: [
+        ManagedPolicy.fromAwsManagedPolicyName(
+          "service-role/AWSLambdaBasicExecutionRole"
+        ),
+        ManagedPolicy.fromManagedPolicyName(
+          this,
+          "remotion-executionrole-policy",
+          "remotion-executionrole-policy"
+        ),
+      ],
+    });
+
+    // 👇 create the apiIntegrationRole role
+    const apiIntegrationRole = new IAM.Role(this, "api-integration-role", {
+      assumedBy: new IAM.ServicePrincipal("lambda.amazonaws.com"),
       managedPolicies: [
         ManagedPolicy.fromAwsManagedPolicyName(
           "service-role/AWSLambdaBasicExecutionRole"
@@ -61,23 +77,20 @@ export class RemotionLambdaStarterStack extends cdk.Stack {
       ],
     });
 
-    // 👇 create the apiIntegrationRole role
-    const apiIntegrationRole = new IAM.Role(this, "api-integration-role", {
-      assumedBy: new IAM.ServicePrincipal("apigateway.amazonaws.com"),
+    // 👇 create the queue
+    const remotionQueue = new sqs.Queue(this, "queue", {
+      encryption: sqs.QueueEncryption.KMS_MANAGED,
+      queueName: "remotion_queue",
     });
-
     // 👇 create the render function
     const enqueueFunction = new NodejsFunction(this, "enqueue-function", {
       runtime: lambda.Runtime.NODEJS_16_X,
       handler: "main",
       entry: path.join(__dirname, `/../src/enqueue-function/index.ts`),
       role: apiIntegrationRole,
-    });
-
-    // 👇 create the queue
-    const remotionQueue = new sqs.Queue(this, "queue", {
-      encryption: sqs.QueueEncryption.KMS_MANAGED,
-      queueName: "remotion_queue",
+      environment: {
+        REMOTION_QUEUE_URL: remotionQueue.queueUrl,
+      },
     });
 
     // 👇 create the render function
@@ -85,14 +98,17 @@ export class RemotionLambdaStarterStack extends cdk.Stack {
       runtime: lambda.Runtime.NODEJS_16_X,
       handler: "main",
       entry: path.join(__dirname, `/../src/render-function/index.ts`),
-      environment: {
-        REMOTION_QUEUE_URL: remotionQueue.queueUrl,
+      role: renderFunctionLambdaRole,
+      bundling: {
+        nodeModules: ["remotion", "@remotion/lambda"],
       },
     });
 
     remotionRenderFunction.addEventSource(
       new SqsEventSource(remotionQueue, {
         batchSize: 1,
+        maxBatchingWindow: Duration.minutes(5),
+        reportBatchItemFailures: true, // default to false
       })
     );
 
@@ -123,8 +139,8 @@ export class RemotionLambdaStarterStack extends cdk.Stack {
         enqueueFunction
       ),
       methods: [apiGateway.HttpMethod.POST, apiGateway.HttpMethod.OPTIONS],
-      path: "/render",
-      authorizer,
+      path: "/enqueue",
+      //authorizer,
     });
 
     // 👇 Output

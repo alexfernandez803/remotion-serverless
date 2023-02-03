@@ -12,6 +12,6 @@
   },
   "dependencies": {
     "@remotion/lambda": "3.3.37",
-    "remotion": "^3.3.37"
+    "remotion": "3.3.37"
   }
 }
