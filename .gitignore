@@ -106,3 +106,6 @@ dist
 package-lock.json
 
 **/.env
+**/**/dist
+**/**/cdk/out
+apigw-sqs-app/cdk.out
