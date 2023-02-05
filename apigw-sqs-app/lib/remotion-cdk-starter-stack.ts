@@ -115,7 +115,7 @@ export class RemotionLambdaStarterStack extends cdk.Stack {
     // 👇 grant permission enqueue function to publish to the queue
     remotionQueue.grantSendMessages(apiIntegrationRole);
     // 👇 grant permission to render function consume the queue
-    remotionQueue.grantConsumeMessages(remotionRenderFunction);
+    remotionQueue.grantConsumeMessages(renderFunctionLambdaRole);
 
     // 👇 create the API
     const httpApi = new apiGateway.HttpApi(this, "api", {
@@ -140,7 +140,7 @@ export class RemotionLambdaStarterStack extends cdk.Stack {
       ),
       methods: [apiGateway.HttpMethod.POST, apiGateway.HttpMethod.OPTIONS],
       path: "/enqueue",
-      //authorizer,
+      authorizer,
     });
 
     // 👇 Output
