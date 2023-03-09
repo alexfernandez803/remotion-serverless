@@ -1,0 +1,14 @@
+{
+  "name": "ec2-app",
+  "description": "",
+  "version": "0.0.1",
+  "devDependencies": {
+    "@types/aws-lambda": "8.10.61",
+    "typescript": "3.9.7"
+  },
+  "dependencies": {
+    "@remotion/lambda": "3.3.37",
+    "remotion": "3.3.37",
+    "ts-node": "^10.9.1"
+  }
+}
