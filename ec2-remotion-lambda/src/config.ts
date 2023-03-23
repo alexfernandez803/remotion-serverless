@@ -9,7 +9,7 @@ const config: {
   remotionRoleArn: string;
   remotionRoleSession: string;
 } = {
-  port: Number(process.env.PORT) ?? 8080,
+  port: Number(process.env.PORT) ?? 8085,
   remotionRoleArn: process.env.REMOTION_ROLE_ARN ?? "",
   remotionRoleSession: process.env.REMOTION_ROLE_SESSION_NAME ?? "",
 };

@@ -2,13 +2,16 @@
   "name": "ec2-remotion-lambda",
   "version": "1.0.0",
   "description": "",
-  "main": "index.js",
+  "main": "build/index",
   "scripts": {
+    "start": "nodemon",
+    "build": "rm -r ./build && tsc",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "",
   "license": "ISC",
   "devDependencies": {
+    "@types/cors": "^2.8.13",
     "@types/express": "^4.17.17",
     "nodemon": "^2.0.22",
     "ts-node": "^10.9.1"
