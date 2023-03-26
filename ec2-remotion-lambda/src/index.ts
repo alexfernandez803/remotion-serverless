@@ -3,15 +3,19 @@ import cors from "cors";
 import bodyParser from "body-parser";
 import { router as Router } from "./routes";
 import config from "./config";
+import { authentication } from "./libs/authentication";
+import { errorHandler } from "./libs/errorhandler";
 
 const app = express();
 
 const port = config.port;
 
 app.use(cors()); // Enable all cors requests for all routes
-
 // parse application/x-www-form-urlencoded
 app.use(bodyParser.urlencoded({ extended: false }));
+// implement basic authentication
+app.use(authentication);
+app.use(errorHandler);
 // parse application/json
 app.use(bodyParser.json());
 app.use(Router);
