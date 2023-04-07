@@ -4,14 +4,18 @@ require_once __DIR__ . '/vendor/autoload.php';
 require_once __DIR__ . '/utils.php';
 
 use Aws\Lambda\LambdaClient;
+
 $region = 'ap-southeast-2';
+$bucketName = "remotionlambda-apsoutheast2-qv16gcf02l";
+$functionName = "remotion-render-3-3-78-mem2048mb-disk2048mb-240sec";
+$serverUrl = "https://remotionlambda-apsoutheast2-qv16gcf02l.s3.ap-southeast-2.amazonaws.com/sites/remotion-render-app-3.3.78/index.html";
 
 $client = LambdaClient::factory([
     'version' => 'latest',
-    'region' => 'ap-southeast-2',
+    'region' => $region,
 ]);
 
-$data = array("data" => "yeas");
+$data = array("data" => "");
 $input = serializeInputProps(
     $data,
     $region,
@@ -19,7 +23,7 @@ $input = serializeInputProps(
     null
 );
 $params = array(
-    "serveUrl" => "https://remotionlambda-apsoutheast2-qv16gcf02l.s3.ap-southeast-2.amazonaws.com/sites/remotion-render-app-3.3.78/index.html",
+    "serveUrl" => $serverUrl,
     "inputProps" => $input,
     "composition" => "main",
     "type" => "start",
@@ -53,14 +57,20 @@ $params = array(
     "forceWidth" => null,
     "bucketName" => null,
     "audioCodec" => null,
-    "forceBucketName" => "remotionlambda-apsoutheast2-qv16gcf02l",
+    "forceBucketName" => $bucketName,
 );
 
-$result = $client->invoke([
-    'InvocationType' => 'RequestResponse',
-    'FunctionName' => 'remotion-render-3-3-78-mem2048mb-disk2048mb-240sec',
-    'Payload' => json_encode($params),
+try {
+    // Invoke the Lambda function
+    $result = $client->invoke([
+        'InvocationType' => 'RequestResponse',
+        'FunctionName' => $functionName,
+        'Payload' => json_encode($params),
+    ]);
 
-]);
-
-var_dump($result);
+    $json_response = $result['Payload']->getContents();
+    echo $json_response;
+} catch (AwsException $e) {
+    // Handle the exception
+    echo $e->getMessage();
+}

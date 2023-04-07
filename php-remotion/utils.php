@@ -1,5 +1,19 @@
 <?php
 
+function randomHash($options = ['randomInTests' => false]): string
+{
+    $alphabet = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789'; // Added the alphabet string to use in generating the random hash
+    $length = 10; // Changed the length of the hash to a variable that can be modified
+
+    if ($options['randomInTests']) {
+        srand(1234); // Added srand() function to initialize the random number generator to produce the same sequence of numbers every time for testing purposes.
+    }
+
+    return join('', array_map(function () use ($alphabet) { // Added "use" keyword to access the $alphabet variable within the anonymous function
+        return $alphabet[rand(0, strlen($alphabet) - 1)];
+    }, array_fill(0, $length, 1)));
+}
+
 function serializeInputProps($inputProps, string $region, string $type, ?string $userSpecifiedBucketName): array
 {
     try {
