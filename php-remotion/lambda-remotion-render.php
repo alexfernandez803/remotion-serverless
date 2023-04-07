@@ -13,6 +13,10 @@ $serverUrl = "https://remotionlambda-apsoutheast2-qv16gcf02l.s3.ap-southeast-2.a
 $client = LambdaClient::factory([
     'version' => 'latest',
     'region' => $region,
+    // 'credentials' => [
+    //     'key'    => 'YOUR_AWS_ACCESS_KEY_ID',
+    //     'secret' => 'YOUR_AWS_SECRET_ACCESS_KEY',
+    //  ]
 ]);
 
 $data = array("data" => "");
