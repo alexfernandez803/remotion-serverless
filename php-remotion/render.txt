@@ -5,3 +5,5 @@ composer require aws/aws-sdk-php
 php artisan make:provider RiakServiceProvider
 
 php artisan make:provider RemotionServiceProvider
+
+ php artisan serve 

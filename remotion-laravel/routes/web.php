@@ -1,6 +1,5 @@
 <?php
 
-use App\Http\Controllers\RenderController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -17,6 +16,3 @@ use Illuminate\Support\Facades\Route;
 Route::get('/', function () {
     return view('welcome');
 });
-
-Route::get('renders', [RenderController::class, 'index']);
-Route::post('renders', [RenderController::class, 'render']);

@@ -3,7 +3,6 @@
 namespace App\Http\Controllers;
 
 use App\Services\RemotionService;
-use Illuminate\Support\Facades\Http;
 
 class RenderController extends Controller
 {
@@ -15,9 +14,9 @@ class RenderController extends Controller
     public function index()
     {
 
-        $jsonData = RemotionService::render();
-
-        return response()->json($jsonData);
+        return response()->json(array(
+            "message" => "Hello!",
+        ));
     }
 
     /**
@@ -27,10 +26,14 @@ class RenderController extends Controller
      */
     public function render()
     {
-        $response = Http::get('https://jsonplaceholder.typicode.com/posts');
+        try {
+            $jsonData = RemotionService::render();
+            return response()->json(json_decode($jsonData), 200);
+        } catch (Exception $e) {
+            return response()->json(array(
+                "message" => $e->getMessage(),
+            ), 500);
+        }
 
-        $jsonData = $response->json();
-
-        return response()->json($jsonData);
     }
 }
