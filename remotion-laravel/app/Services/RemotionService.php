@@ -11,7 +11,6 @@ class RemotionService extends Facade
     {
         $instance = new self();
         return $instance->renderOps();
-
     }
 
     public function renderOps()
@@ -27,6 +26,7 @@ class RemotionService extends Facade
             // 'credentials' => [
             //     'key'    => 'YOUR_AWS_ACCESS_KEY_ID',
             //     'secret' => 'YOUR_AWS_SECRET_ACCESS_KEY',
+            //'token' => 'YOUR_AWS_SECRET_ACCESS_KEY',
             //  ]
         ]);
 
@@ -135,6 +135,25 @@ class RemotionService extends Facade
                 'Error serializing inputProps. Check it has no circular references or reduce the size if the object is big.'
             );
         }
+    }
+
+    public function assumeRole($region = 'ap-southeast-2', $ARN, $sessionName)
+    {
+        $stsClient = new Aws\Sts\StsClient([
+            'region' => $region,
+            'version' => 'latest',
+        ]);
+
+        $result = $stsClient->AssumeRole([
+            'RoleArn' => $ARN,
+            'RoleSessionName' => $sessionName,
+        ]);
+
+        return [
+            'key' => $result['Credentials']['AccessKeyId'],
+            'secret' => $result['Credentials']['SecretAccessKey'],
+            'token' => $result['Credentials']['SessionToken'],
+        ];
     }
 
     public static function index()
