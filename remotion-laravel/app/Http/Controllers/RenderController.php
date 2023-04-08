@@ -7,17 +7,10 @@ use Illuminate\Http\Request;
 
 class RenderController extends BaseController
 {
-    /**
-     * Write code on Method
-     *
-     * @return response()
-     */
+
     public function index()
     {
-
-        return response()->json(array(
-            "message" => "Hello!",
-        ));
+        return $this->sendResponse(array(), 'Hello!');
     }
 
     public function render(Request $request)
@@ -28,13 +21,10 @@ class RenderController extends BaseController
             if ($request->has('data')) {
                 $inputProps = $request->input('data');
             }
-
             $jsonData = RemotionService::render($inputProps);
             return $this->sendResponse(json_decode($jsonData), 'Render Successful.');
         } catch (Exception $e) {
-            return response()->json(array(
-                "message" => $e->getMessage(),
-            ), 500);
+            return $this->sendError($e->getMessage(), [], 500);
         }
 
     }
