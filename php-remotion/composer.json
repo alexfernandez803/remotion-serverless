@@ -1,6 +1,7 @@
 {
   "require": {
     "guzzlehttp/guzzle": "^7.5",
-    "aws/aws-sdk-php": "^3.263"
+    "aws/aws-sdk-php": "^3.263",
+    "vlucas/phpdotenv": "^5.5"
   }
 }

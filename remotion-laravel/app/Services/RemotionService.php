@@ -23,18 +23,16 @@ class RemotionService extends Facade
 
         $credential = null;
 
-        if (env("REMOTION_APP_IS_ASSUME_ROLE", false)) {
-            $credential = $this->assumeRole("ap-southeast-2", env("REMOTION_APP_ROLE_ARN"), env("REMOTION_APP_ROLE_SESSION_NAME"));
+        if (env("REMOTION_APP_IS_ASSUME_ROLE", false) === true) {
+            $credential = $this->assumeRole(env("REMOTION_APP_REGION"),
+                env("REMOTION_APP_ROLE_ARN"), env("REMOTION_APP_ROLE_SESSION_NAME"));
         }
 
-        if (env("REMOTION_APP_IS_ASSUME_ROLE")) {
-            $client = LambdaClient::factory([
-                'version' => 'latest',
-                'region' => $region,
-                'credentials' => $credential,
-            ]);
-        }
-
+        $client = LambdaClient::factory([
+            'version' => 'latest',
+            'region' => $region,
+            'credentials' => $credential,
+        ]);
         $input = $this->serializeInputProps(
             $inputProps,
             $region,
@@ -95,7 +93,7 @@ class RemotionService extends Facade
 
     }
 
-    public function randomHash($options = ['randomInTests' => false]): string
+    private function randomHash($options = ['randomInTests' => false]): string
     {
         $alphabet = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789'; // Added the alphabet string to use in generating the random hash
         $length = 10; // Changed the length of the hash to a variable that can be modified
@@ -158,18 +156,6 @@ class RemotionService extends Facade
             'secret' => $result['Credentials']['SecretAccessKey'],
             'token' => $result['Credentials']['SessionToken'],
         ];
-    }
-
-    public static function index()
-    {
-
-        $response = Http::get('https://jsonplaceholder.typicode.com/posts');
-
-        if ($response->ok()) {
-            return $response->json();
-        }
-
-        return null;
     }
 
 }

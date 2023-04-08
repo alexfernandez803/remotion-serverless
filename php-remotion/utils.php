@@ -45,3 +45,29 @@ function serializeInputProps($inputProps, string $region, string $type, ?string 
         );
     }
 }
+
+function assumeRole($region, $ARN, $sessionName)
+{
+
+    try {
+        $stsClient = new Aws\Sts\StsClient([
+            'region' => $region,
+            'version' => 'latest',
+        ]);
+
+        $result = $stsClient->AssumeRole([
+            'RoleArn' => $ARN,
+            'RoleSessionName' => $sessionName,
+        ]);
+
+        return [
+            'key' => $result['Credentials']['AccessKeyId'],
+            'secret' => $result['Credentials']['SecretAccessKey'],
+            'token' => $result['Credentials']['SessionToken'],
+        ];
+    } catch (AwsException $e) {
+        // Handle the exception
+        echo $e->getMessage();
+        return null;
+    }
+}

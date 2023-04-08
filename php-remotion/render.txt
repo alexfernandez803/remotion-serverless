@@ -1,4 +1,4 @@
-php lalambda-remotion-render.php
+php lambda-remotion-render.php
 
 composer require aws/aws-sdk-php
 

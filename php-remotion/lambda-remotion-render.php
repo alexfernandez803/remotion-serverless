@@ -4,19 +4,25 @@ require_once __DIR__ . '/vendor/autoload.php';
 require_once __DIR__ . '/utils.php';
 
 use Aws\Lambda\LambdaClient;
+$dotenv = Dotenv\Dotenv::createImmutable(__DIR__);
+$dotenv->load();
 
-$region = 'ap-southeast-2';
-$bucketName = "remotionlambda-apsoutheast2-qv16gcf02l";
-$functionName = "remotion-render-3-3-78-mem2048mb-disk2048mb-240sec";
-$serverUrl = "https://remotionlambda-apsoutheast2-qv16gcf02l.s3.ap-southeast-2.amazonaws.com/sites/remotion-render-app-3.3.78/index.html";
+$region = $_ENV['REMOTION_APP_REGION'];
+$bucketName = $_ENV['REMOTION_APP_BUCKET'];
+$functionName = $_ENV['REMOTION_APP_FUNCTION_NAME'];
+$serverUrl = $_ENV["REMOTION_APP_SERVER_URL"];
+
+$credential = null;
+
+if ($_ENV["REMOTION_APP_IS_ASSUME_ROLE"] === true) {
+    $credential = assumeRole($_ENV["REMOTION_APP_REGION"],
+        $_ENV["REMOTION_APP_ROLE_ARN"], $_ENV["REMOTION_APP_ROLE_SESSION_NAME"]);
+}
 
 $client = LambdaClient::factory([
     'version' => 'latest',
     'region' => $region,
-    // 'credentials' => [
-    //     'key'    => 'YOUR_AWS_ACCESS_KEY_ID',
-    //     'secret' => 'YOUR_AWS_SECRET_ACCESS_KEY',
-    //  ]
+    'credentials' => $credential,
 ]);
 
 $data = array("data" => "");
