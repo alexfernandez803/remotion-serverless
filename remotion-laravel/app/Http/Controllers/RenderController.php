@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Services\RemotionService;
+use Illuminate\Http\Request;
 
 class RenderController extends BaseController
 {
@@ -19,7 +20,7 @@ class RenderController extends BaseController
         ));
     }
 
-    public function render()
+    public function render(Request $request)
     {
         try {
             $inputProps = array();
@@ -29,7 +30,7 @@ class RenderController extends BaseController
             }
 
             $jsonData = RemotionService::render($inputProps);
-            return response()->json(json_decode($jsonData), 200);
+            return $this->sendResponse(json_decode($jsonData), 'Render Successful.');
         } catch (Exception $e) {
             return response()->json(array(
                 "message" => $e->getMessage(),
