@@ -20,15 +20,20 @@ class RemotionService extends Facade
         $bucketName = env("REMOTION_APP_BUCKET");
         $functionName = env("REMOTION_APP_FUNCTION_NAME");
         $serverUrl = env("REMOTION_APP_SERVER_URL");
-        $client = LambdaClient::factory([
-            'version' => 'latest',
-            'region' => $region,
-            // 'credentials' => [
-            //     'key'    => 'YOUR_AWS_ACCESS_KEY_ID',
-            //     'secret' => 'YOUR_AWS_SECRET_ACCESS_KEY',
-            //'token' => 'YOUR_AWS_SECRET_ACCESS_KEY',
-            //  ]
-        ]);
+
+        $credential = null;
+
+        if (env("REMOTION_APP_IS_ASSUME_ROLE", false)) {
+            $credential = $this->assumeRole("ap-southeast-2", env("REMOTION_APP_ROLE_ARN"), env("REMOTION_APP_ROLE_SESSION_NAME"));
+        }
+
+        if (env("REMOTION_APP_IS_ASSUME_ROLE")) {
+            $client = LambdaClient::factory([
+                'version' => 'latest',
+                'region' => $region,
+                'credentials' => $credential,
+            ]);
+        }
 
         $input = $this->serializeInputProps(
             $inputProps,
