@@ -4,7 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Services\RemotionService;
 
-class RenderController extends Controller
+class RenderController extends BaseController
 {
     /**
      * Write code on Method
@@ -19,15 +19,16 @@ class RenderController extends Controller
         ));
     }
 
-    /**
-     * Write code on Method
-     *
-     * @return response()
-     */
     public function render()
     {
         try {
-            $jsonData = RemotionService::render();
+            $inputProps = array();
+
+            if ($request->has('data')) {
+                $inputProps = $request->input('data');
+            }
+
+            $jsonData = RemotionService::render($inputProps);
             return response()->json(json_decode($jsonData), 200);
         } catch (Exception $e) {
             return response()->json(array(

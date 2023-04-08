@@ -7,13 +7,13 @@ use Illuminate\Support\Facades\Facade;
 
 class RemotionService extends Facade
 {
-    public static function render()
+    public static function render($inputProps)
     {
         $instance = new self();
-        return $instance->renderOps();
+        return $instance->renderOps($inputProps);
     }
 
-    public function renderOps()
+    public function renderOps($inputProps = array())
     {
 
         $region = env("REMOTION_APP_REGION");
@@ -30,9 +30,8 @@ class RemotionService extends Facade
             //  ]
         ]);
 
-        $data = array("data" => "");
         $input = $this->serializeInputProps(
-            $data,
+            $inputProps,
             $region,
             "video-or-audio",
             null

@@ -7,3 +7,9 @@ php artisan make:provider RiakServiceProvider
 php artisan make:provider RemotionServiceProvider
 
  php artisan serve 
+
+ php artisan vendor:publish --tag=sanctum-migrations
+
+ php artisan make:model User
+
+ php artisan make:model User --migration
