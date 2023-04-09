@@ -5,10 +5,11 @@ import {
 } from "@remotion/lambda";
 import dotenv from "dotenv";
 import path from "path";
-import { SITE_ID } from "./../config";
+import { SITE_ID } from "../config";
 import { getAccountCount } from "./get-account-count";
 import { usedRegions } from "./regions";
 import { setEnvForKey } from "./set-env-for-key";
+import { webpackOverride } from "../webpack-override";
 dotenv.config();
 
 const count = getAccountCount();
@@ -39,6 +40,9 @@ const execute = async () => {
         bucketName,
         entryPoint,
         region,
+        options: {
+          webpackOverride,
+        },
       });
       console.log(
         `Deployed site to ${region} in account ${i} under ${serveUrl}`
