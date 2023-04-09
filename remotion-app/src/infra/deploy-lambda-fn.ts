@@ -15,7 +15,7 @@ dotenv.config();
 const count = getAccountCount();
 console.log(`Found ${count} accounts. Deploying...`);
 
-const REMOTION_COMPOSTION_PATH = "src/remotion/index.tsx";
+const REMOTION_COMPOSTION_PATH = "src/index.tsx";
 const execute = async () => {
   for (let i = 1; i <= count; i++) {
     for (const region of usedRegions) {
