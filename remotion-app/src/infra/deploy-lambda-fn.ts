@@ -5,16 +5,17 @@ import {
 } from "@remotion/lambda";
 import dotenv from "dotenv";
 import path from "path";
-import { SITE_ID } from "./../config";
+import { SITE_ID } from "../config";
 import { getAccountCount } from "./get-account-count";
 import { usedRegions } from "./regions";
 import { setEnvForKey } from "./set-env-for-key";
+import { webpackOverride } from "../webpack-override";
 dotenv.config();
 
 const count = getAccountCount();
 console.log(`Found ${count} accounts. Deploying...`);
 
-const REMOTION_COMPOSTION_PATH = "src/remotion/index.tsx";
+const REMOTION_COMPOSTION_PATH = "src/index.tsx";
 const execute = async () => {
   for (let i = 1; i <= count; i++) {
     for (const region of usedRegions) {
@@ -29,7 +30,7 @@ const execute = async () => {
       console.log(
         `${
           alreadyExisted ? "Ensured" : "Deployed"
-        } function "${functionName}" to ${region} in account ${i}`
+        } function="${functionName}" to region="${region}" in account ${i}`
       );
       const { bucketName } = await getOrCreateBucket({ region });
       const entryPoint = path.join(process.cwd(), REMOTION_COMPOSTION_PATH);
@@ -39,9 +40,12 @@ const execute = async () => {
         bucketName,
         entryPoint,
         region,
+        options: {
+          webpackOverride,
+        },
       });
       console.log(
-        `Deployed site to ${region} in account ${i} under ${serveUrl}`
+        `Deployed site to region="${region}" in account ${i} with bucker="${bucketName}" under serverUrl="${serveUrl}"`
       );
     }
   }
