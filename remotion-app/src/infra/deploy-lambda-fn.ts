@@ -30,7 +30,7 @@ const execute = async () => {
       console.log(
         `${
           alreadyExisted ? "Ensured" : "Deployed"
-        } function "${functionName}" to ${region} in account ${i}`
+        } function="${functionName}" to region="${region}" in account ${i}`
       );
       const { bucketName } = await getOrCreateBucket({ region });
       const entryPoint = path.join(process.cwd(), REMOTION_COMPOSTION_PATH);
@@ -45,7 +45,7 @@ const execute = async () => {
         },
       });
       console.log(
-        `Deployed site to ${region} in account ${i} under ${serveUrl}`
+        `Deployed site to region="${region}" in account ${i} with bucker="${bucketName}" under serverUrl="${serveUrl}"`
       );
     }
   }
