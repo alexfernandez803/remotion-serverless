@@ -10,7 +10,7 @@ $dotenv->load();
 $region = $_ENV['REMOTION_APP_REGION'];
 $bucketName = $_ENV['REMOTION_APP_BUCKET'];
 $functionName = $_ENV['REMOTION_APP_FUNCTION_NAME'];
-$serverUrl = $_ENV["REMOTION_APP_SERVER_URL"];
+$serveUrl = $_ENV["REMOTION_APP_SERVE_URL"];
 
 $credential = null;
 
@@ -33,7 +33,7 @@ $input = serializeInputProps(
     null
 );
 $params = array(
-    "serveUrl" => $serverUrl,
+    "serveUrl" => $serveUrl,
     "inputProps" => $input,
     "composition" => "main",
     "type" => "start",
