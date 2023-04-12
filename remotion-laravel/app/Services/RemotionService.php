@@ -19,7 +19,7 @@ class RemotionService extends Facade
         $region = env("REMOTION_APP_REGION");
         $bucketName = env("REMOTION_APP_BUCKET");
         $functionName = env("REMOTION_APP_FUNCTION_NAME");
-        $serverUrl = env("REMOTION_APP_SERVER_URL");
+        $serveUrl = env("REMOTION_APP_SERVE_URL");
 
         $credential = null;
 
@@ -40,7 +40,7 @@ class RemotionService extends Facade
             null
         );
         $params = array(
-            "serveUrl" => $serverUrl,
+            "serveUrl" => $serveUrl,
             "inputProps" => $input,
             "composition" => "main",
             "type" => "start",
