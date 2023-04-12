@@ -45,7 +45,7 @@ const execute = async () => {
         },
       });
       console.log(
-        `Deployed site to region="${region}" in account ${i} with bucker="${bucketName}" under serverUrl="${serveUrl}"`
+        `Deployed site to region="${region}" in account ${i} with bucker="${bucketName}" under serveUrl="${serveUrl}"`
       );
     }
   }
