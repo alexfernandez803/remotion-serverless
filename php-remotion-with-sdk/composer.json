@@ -1,0 +1,8 @@
+{
+  "require": {
+    "guzzlehttp/guzzle": "^7.5",
+    "aws/aws-sdk-php": "3.269",
+    "vlucas/phpdotenv": "^5.5",
+    "remotion/lambda": "^3.3"
+  }
+}
