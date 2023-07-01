@@ -1,31 +1,30 @@
 import { APIGatewayProxyEventV2, APIGatewayProxyResultV2 } from "aws-lambda";
 /* eslint-disable @typescript-eslint/require-await */
-import { getFunctions, renderMediaOnLambda } from "@remotion/lambda/client";
-import { Handler } from "aws-lambda";
-import { COMP_NAME, SITE_ID } from "./config";
-import { getRandomRegion } from "./utils/regions";
+import { renderMediaOnLambda } from "@remotion/lambda/client";
+import { COMP_NAME } from "./config";
 
 export const handler = async function (
-  event: APIGatewayProxyEventV2
+  _event: APIGatewayProxyEventV2
 ): Promise<APIGatewayProxyResultV2> {
-  console.log(`event => ${JSON.stringify(event)}`);
-
   try {
-    const region = getRandomRegion();
-    const [first] = await getFunctions({
-      compatibleOnly: true,
-      region,
-    });
+    console.log(`event => renderMediaOnLambda`);
     const { renderId, bucketName } = await renderMediaOnLambda({
-      region: region,
-      functionName: first.functionName,
-      serveUrl: SITE_ID,
+      region: "ap-southeast-2",
+      functionName: "remotion-render-3-3-101-mem2048mb-disk2048mb-240sec",
+      serveUrl:
+        "https://remotionlambda-apsoutheast2-qv16gcf02l.s3.ap-southeast-2.amazonaws.com/sites/remotion-render-app-3.3.101/index.html",
+
       composition: COMP_NAME,
       inputProps: {},
       codec: "h264",
       imageFormat: "jpeg",
       maxRetries: 1,
       privacy: "private",
+      enableStreaming: true /* ,
+      onProgress: (progress) => {
+        console.log("data");
+        console.log(progress);
+      }, */,
     });
 
     console.log(`RenderId=${renderId}, bucketName=${bucketName}`);

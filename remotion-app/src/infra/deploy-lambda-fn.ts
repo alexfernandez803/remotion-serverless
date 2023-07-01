@@ -21,7 +21,6 @@ const execute = async () => {
     for (const region of usedRegions) {
       setEnvForKey(i);
       const { functionName, alreadyExisted } = await deployFunction({
-        architecture: "arm64",
         createCloudWatchLogGroup: true,
         memorySizeInMb: 2048,
         timeoutInSeconds: 240,
