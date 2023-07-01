@@ -55,6 +55,7 @@ func main() {
 	renderResponse, renderError := lambda_go_sdk.RenderMediaOnLambda(renderInputRequest)
 
 	// Check if there are validation errors
+
 	if renderError != nil {
 
 		validationOut := make([]ValidationError, len(renderError.(validator.ValidationErrors)))
@@ -71,24 +72,28 @@ func main() {
 
 	}
 
+	print(renderResponse)
+
 	// Get bucket information
 	fmt.Printf("Bucket name: %s, Render ID: %s\n", renderResponse.BucketName, renderResponse.RenderId)
+	fmt.Printf("Bucket name: %s, Render ID: %s\n", renderResponse.BucketName, renderResponse.RenderId)
+	/*
+		// Render Progress request
+		renderProgressInputRequest := lambda_go_sdk.RenderConfig{
+			FunctionName: functionName,
+			Region:       region,
+			RenderId:     renderResponse.RenderId,
+			BucketName:   renderResponse.BucketName,
+		}
+		// Execute getting the render progress
+		renderProgressResponse, renderProgressError := lambda_go_sdk.GetRenderProgress(renderProgressInputRequest)
 
-	// Render Progress request
-	renderProgressInputRequest := lambda_go_sdk.RenderConfig{
-		FunctionName: functionName,
-		Region:       region,
-		RenderId:     renderResponse.RenderId,
-		BucketName:   renderResponse.BucketName,
-	}
-	// Execute getting the render progress
-	renderProgressResponse, renderProgressError := lambda_go_sdk.GetRenderProgress(renderProgressInputRequest)
+		// Check if we have error
+		if renderProgressError != nil {
+			log.Fatal("%s %s", "Invalid render progress response", renderProgressError)
+		}
 
-	// Check if we have error
-	if renderProgressError != nil {
-		log.Fatal("%s %s", "Invalid render progress response", renderProgressError)
-	}
-
-	// Get the overall render progress
-	fmt.Printf("Progress: %f", renderProgressResponse.OverallProgress)
+		// Get the overall render progress
+		fmt.Printf("Progress: %f", renderProgressResponse.OverallProgress)
+	*/
 }

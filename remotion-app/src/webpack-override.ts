@@ -1,6 +1,4 @@
-import { WebpackOverrideFn } from "remotion";
-
-export const webpackOverride: WebpackOverrideFn = (currentConfiguration) => {
+export const webpackOverride = (currentConfiguration: any) => {
   return {
     ...currentConfiguration,
     module: {
@@ -9,7 +7,7 @@ export const webpackOverride: WebpackOverrideFn = (currentConfiguration) => {
         ...(currentConfiguration.module?.rules
           ? currentConfiguration.module.rules
           : []
-        ).filter((rule) => {
+        ).filter((rule: any) => {
           if (rule === "...") {
             return false;
           }
