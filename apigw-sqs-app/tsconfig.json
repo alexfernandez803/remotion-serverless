@@ -3,7 +3,7 @@
     "jsx": "react",
     "target": "ES2018",
     "module": "commonjs",
-    "lib": ["es2018", "ESNext.AsyncIterable"],
+    "lib": ["es2018", "ESNext.AsyncIterable", "DOM"],
     "allowJs": true,
     "checkJs": true,
     "removeComments": true,
