@@ -7,8 +7,8 @@
     "typescript": "3.9.7"
   },
   "dependencies": {
-    "@remotion/lambda": "3.3.37",
-    "remotion": "3.3.37",
+    "@remotion/lambda": "3.3.101",
+    "remotion": "3.3.101",
     "ts-node": "^10.9.1"
   }
 }
