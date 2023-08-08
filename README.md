@@ -1,6 +1,6 @@
 # Remotion serverless
 
-A project containing examples on how to use [Remotion Lambda](https://www.remotion.dev/docs/lambda)
+A project containing examples on how to use [Remotion Lambda](https://www.remotion.dev/docs/lambda). Use at your own risk.
 
 
 # You can help me buy buying me a coffee.
