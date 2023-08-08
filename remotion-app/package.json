@@ -32,9 +32,9 @@
   },
   "dependencies": {
     "@aws-sdk/client-s3": "^3.338.0",
-    "@remotion/lambda": "3.3.101",
+    "@remotion/lambda": "4.0.18",
     "dotenv": "16.0.3",
     "react": "18.2.0",
-    "remotion": "3.3.101"
+    "remotion": "4.0.18"
   }
 }
