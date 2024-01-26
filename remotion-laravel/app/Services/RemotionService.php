@@ -45,7 +45,7 @@ class RemotionService extends Facade
             "composition" => "main",
             "type" => "start",
             "codec" => "h264",
-            "version" => "4.0.74",
+            "version" => "4.0.81",
             "codec" => "h264",
             "imageFormat" => "jpeg",
             "crf" => 1,
