@@ -3,6 +3,6 @@
     "guzzlehttp/guzzle": "^7.5",
     "aws/aws-sdk-php": "3.269",
     "vlucas/phpdotenv": "^5.5",
-    "remotion/lambda": "4.0.81"
+    "remotion/lambda": "4.0.164"
   }
 }

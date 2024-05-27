@@ -11,7 +11,7 @@
     "typescript": "3.9.7"
   },
   "dependencies": {
-    "@remotion/lambda": "4.0.81",
-    "remotion": "4.0.81"
+    "@remotion/lambda": "4.0.164",
+    "remotion": "4.0.164"
   }
 }
